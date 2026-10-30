@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Game.css'
+import './scripts/data-manager'
 
 function App() {
 	const [count, setCount] = useState(0)
+
+	useEffect(() => {})
 
 	return (
 		<>
