@@ -22,5 +22,5 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "src/scripts/data-manager.tsx"]
+	"include": ["src", "scripts/data-manager.ts"]
 }

@@ -4,16 +4,21 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"start": "vite",
+		"start": "concurrently --kill-others \"npm run harvest:watch\" \"vite\"",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"harvest": "npx ts-node scripts/data-manager.ts",
+		"harvest:watch": "nodemon -e yaml -w ./data -x npm run harvest"
 	},
 	"dependencies": {
+		"concurrently": "^10.0.6",
 		"glob": "^14.0.3",
 		"js-yaml": "^5.5.0",
+		"nodemon": "^3.1.14",
 		"react": "^19.3.1",
-		"react-dom": "^19.3.1"
+		"react-dom": "^19.3.1",
+		"ts-node": "^10.9.2"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

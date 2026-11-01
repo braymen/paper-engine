@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Game.css'
-import './scripts/data-manager'
+import Items from './data/items.json'
 
 function App() {
 	const [count, setCount] = useState(0)
@@ -13,6 +13,7 @@ function App() {
 			<button style={{ fontSize: '36px' }} onClick={() => setCount(count + 1)}>
 				Click
 			</button>
+			{JSON.stringify(Items)}
 		</>
 	)
 }

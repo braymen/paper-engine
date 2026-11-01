@@ -1,0 +1,7 @@
+{
+	"yaml.schemas": {
+		"schemas/items.json": "data/items/**/*.yaml",
+		"schemas/achievements.json": "data/achievements/**/*.yaml",
+		"schemas/currencies.json": "data/currencies/**/*.yaml"
+	}
+}
