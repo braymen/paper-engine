@@ -1,3 +1,5 @@
 Example Item:
     name: Example Item
-    description: Test item description
+    description: >
+        Test item description
+        This is a description
