@@ -1,4 +1,6 @@
 import { ipcRenderer, contextBridge } from 'electron'
+import { DirectoryType } from './ipcs/open-folder'
+
 contextBridge.exposeInMainWorld('api', {
 	save: (data: object, key: string) => {
 		return ipcRenderer.invoke('save', data, key)
@@ -9,17 +11,14 @@ contextBridge.exposeInMainWorld('api', {
 	delete: (key: string) => {
 		return ipcRenderer.invoke('delete', key)
 	},
-	openFolder: () => {
-		return ipcRenderer.invoke('open-folder')
+	openFolder: (directoryType: DirectoryType) => {
+		return ipcRenderer.invoke('open-folder', directoryType)
 	},
 	achievement: (key: string) => {
 		return ipcRenderer.invoke('achievement', key)
 	},
-	retriggerAchievments: (keys: string[]) => {
-		return ipcRenderer.invoke('retrigger-achievements', keys)
-	},
-	hasDlc: (dlc: string) => {
-		return ipcRenderer.invoke('has-dlc', dlc)
+	hasDlc: (appid: string) => {
+		return ipcRenderer.invoke('has-dlc', appid)
 	},
 	link: (url: string) => {
 		return ipcRenderer.invoke('link', url)

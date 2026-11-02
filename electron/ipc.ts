@@ -7,6 +7,11 @@ import * as config from './config'
 import { setFullscreen } from './ipcs/set-fullscreen'
 import { getFullscreen } from './ipcs/get-fullscreen'
 import { spitLog } from './logger'
+import { achievement } from './ipcs/achievement'
+import { openFolder } from './ipcs/open-folder'
+import { notify } from './ipcs/notify'
+import { log } from './ipcs/log'
+import { hasDlc } from './ipcs/has-dlc'
 
 export const setupIpcHandlers = (ipc: IpcMain, steam: Client, app: Electron.App, window: Electron.BrowserWindow) => {
 	try {
@@ -22,7 +27,12 @@ export const setupIpcHandlers = (ipc: IpcMain, steam: Client, app: Electron.App,
 	}
 
 	// Initialize all the IPCs
+	achievement(ipc, steam)
 	link(ipc)
+	log(ipc)
+	hasDlc(ipc, steam)
+	notify(ipc)
+	openFolder(ipc)
 	getFullscreen(ipc, window)
 	setFullscreen(ipc, window)
 	quit(ipc, app)
