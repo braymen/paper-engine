@@ -1,6 +1,6 @@
 import { IpcMain, shell } from 'electron'
 import * as config from '../config'
-import { spitLog } from '../logger'
+import { spitLog } from '../utils'
 export type DirectoryType = 'Root' | 'Saves' | 'Logs' | 'Backups'
 
 export const openFolder = (ipc: IpcMain) => {

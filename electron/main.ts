@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as config from './config'
 import * as Steamworks from 'steamworks.js'
 import { error } from 'console'
-import { spitLog } from './logger'
+import { spitLog } from './utils'
 import { setupIpcHandlers } from './ipc'
 
 const platform = process.platform
