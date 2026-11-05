@@ -7,7 +7,7 @@ function App() {
 
 	useEffect(() => {
 		// @ts-expect-error: Unreachable code error
-		window.api.save({ test: 'test e' }, '1', false)
+		// window.api.save({ test: 'test e' }, '1', false)
 		// @ts-expect-error: Unreachable code error
 		window.api.load('1').then((data) => console.log(data))
 	})

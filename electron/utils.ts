@@ -1,5 +1,4 @@
 import { app } from 'electron'
-import { md5 } from 'js-md5'
 
 export const spitLog = (where: string, message: string, wasBad: boolean) => {
 	const errorMessage = `[${where}]: ${message}`
@@ -10,6 +9,19 @@ export const spitLog = (where: string, message: string, wasBad: boolean) => {
 	}
 }
 
-export const hashContent = (content: string) => {
-	return md5(content)
+export const guardedParse = (str: string) => {
+	try {
+		spitLog('Guarded Parse', `Starting guarded parse`, false)
+		const parsed = JSON.parse(str)
+
+		if (parsed !== null && typeof parsed === 'object') {
+			spitLog('Guarded Parse', `Data parsed successfully!`, false)
+			return parsed
+		} else {
+			spitLog('Guarded Parse', `Data parsed failed...`, false)
+			return null
+		}
+	} catch (err) {
+		spitLog('Guarded Parse', `Failed to parse string. ${err}`, false)
+	}
 }
