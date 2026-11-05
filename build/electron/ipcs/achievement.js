@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quit = void 0;
-const quit = (ipc, steam) => {
-    ipc.handle('achievement', (_event, key) => { });
+exports.achievement = void 0;
+const achievement = (ipc, steam) => {
+    ipc.handle('achievement', (_event, key) => {
+        steam.achievement.activate(key);
+    });
 };
-exports.quit = quit;
+exports.achievement = achievement;

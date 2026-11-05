@@ -5,7 +5,12 @@ import Items from './data/items.json'
 function App() {
 	const [count, setCount] = useState(0)
 
-	useEffect(() => {})
+	useEffect(() => {
+		// @ts-expect-error: Unreachable code error
+		window.api.save({ test: 'test e' }, '1', false)
+		// @ts-expect-error: Unreachable code error
+		window.api.load('1').then((data) => console.log(data))
+	})
 
 	return (
 		<>

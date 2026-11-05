@@ -35,30 +35,43 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupIpcHandlers = void 0;
 const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
 const quit_1 = require("./ipcs/quit");
 const link_1 = require("./ipcs/link");
-const setupIpcHandlers = (ipc, steam, directory, app, window) => {
-    const saveDirectory = path.resolve(directory, 'saves');
-    const backupDirectory = path.resolve(directory, 'saves/backups');
-    const logDirectory = path.resolve(directory, 'logs');
-    let lastBackup = Date.now();
+const config = __importStar(require("./config"));
+const set_fullscreen_1 = require("./ipcs/set-fullscreen");
+const get_fullscreen_1 = require("./ipcs/get-fullscreen");
+const utils_1 = require("./utils");
+const achievement_1 = require("./ipcs/achievement");
+const open_folder_1 = require("./ipcs/open-folder");
+const notify_1 = require("./ipcs/notify");
+const log_1 = require("./ipcs/log");
+const has_dlc_1 = require("./ipcs/has-dlc");
+const save_1 = require("./ipcs/save");
+const load_1 = require("./ipcs/load");
+const setupIpcHandlers = (ipc, steam, app, window) => {
     try {
-        // Only need to do the backup directory, since
-        // it's nested in the save and recursive is true
-        if (!fs.existsSync(backupDirectory)) {
-            fs.mkdirSync(backupDirectory, { recursive: true });
+        // Only need to do the backup directory, since it's nested in the save and recursive is true
+        if (!fs.existsSync(config.BACKUP_DIRECTORY)) {
+            fs.mkdirSync(config.BACKUP_DIRECTORY, { recursive: true });
         }
-        if (!fs.existsSync(logDirectory)) {
-            fs.mkdirSync(logDirectory, { recursive: true });
+        if (!fs.existsSync(config.LOG_DIRECTORY)) {
+            fs.mkdirSync(config.LOG_DIRECTORY, { recursive: true });
         }
     }
     catch (err) {
-        // TODO: Handle Errors
-        console.log('Log Folder Check: ', err);
+        (0, utils_1.spitLog)('Setting up Directories', JSON.stringify(err), true);
     }
     // Initialize all the IPCs
+    (0, achievement_1.achievement)(ipc, steam);
     (0, link_1.link)(ipc);
+    (0, log_1.log)(ipc);
+    (0, has_dlc_1.hasDlc)(ipc, steam);
+    (0, notify_1.notify)(ipc);
+    (0, open_folder_1.openFolder)(ipc);
+    (0, get_fullscreen_1.getFullscreen)(ipc, window);
+    (0, set_fullscreen_1.setFullscreen)(ipc, window);
+    (0, save_1.save)(ipc);
+    (0, load_1.load)(ipc);
     (0, quit_1.quit)(ipc, app);
 };
 exports.setupIpcHandlers = setupIpcHandlers;

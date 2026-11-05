@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quit = void 0;
-const quit = (ipc, app) => {
-    ipc.handle('quit', () => {
-        app.quit();
+exports.hasDlc = void 0;
+const hasDlc = (ipc, steam) => {
+    ipc.handle('has-dlc', (_event, appid) => {
+        return steam.apps.isDlcInstalled(appid);
     });
 };
-exports.quit = quit;
+exports.hasDlc = hasDlc;

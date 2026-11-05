@@ -5,7 +5,7 @@ contextBridge.exposeInMainWorld('api', {
 	save: (data: object, key: string, backup: boolean) => {
 		return ipcRenderer.invoke('save', data, key, backup)
 	},
-	load: (key: string) => {
+	load: (key: string): object => {
 		return ipcRenderer.invoke('load', key)
 	},
 	delete: (key: string) => {

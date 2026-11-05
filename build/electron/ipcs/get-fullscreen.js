@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quit = void 0;
-const quit = (ipc, app) => {
-    ipc.handle('quit', () => {
-        app.quit();
+exports.getFullscreen = void 0;
+const getFullscreen = (ipc, window) => {
+    ipc.handle('get-fullscreen', () => {
+        return window.fullScreen;
     });
 };
-exports.quit = quit;
+exports.getFullscreen = getFullscreen;

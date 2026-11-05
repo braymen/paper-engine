@@ -38,13 +38,13 @@ const path = __importStar(require("path"));
 const config = __importStar(require("./config"));
 const Steamworks = __importStar(require("steamworks.js"));
 const console_1 = require("console");
-const error_1 = require("./error");
+const utils_1 = require("./utils");
+const ipc_1 = require("./ipc");
 const platform = process.platform;
 // Unsupported OS check
 if (platform !== 'win32') {
     process.exit(1);
 }
-const saveDirectory = path.join(electron_1.app.getPath('userData'), config.COMPANY_NAME, config.GAME_NAME);
 let steam;
 try {
     steam = Steamworks.init(config.STEAM_APPID || 480);
@@ -52,10 +52,12 @@ try {
         throw (0, console_1.error)('Steam Client was unable to be initialized');
 }
 catch (err) {
-    (0, error_1.eatError)('Steamworks Initialization', JSON.stringify(err), true);
+    (0, utils_1.spitLog)('Steamworks Initialization', JSON.stringify(err), true);
 }
+(0, utils_1.spitLog)('Steamworks Initialization', 'Steamworks has been initialized', false);
 function createWindow() {
-    const win = new electron_1.BrowserWindow({
+    // Create the window
+    const window = new electron_1.BrowserWindow({
         minWidth: config.MIN_WINDOW_WIDTH,
         minHeight: config.MIN_WINDOW_HEIGHT,
         width: config.MIN_WINDOW_WIDTH,
@@ -63,7 +65,6 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
-            contextIsolation: true,
             backgroundThrottling: false
         },
         autoHideMenuBar: true,
@@ -71,13 +72,24 @@ function createWindow() {
         show: false,
         icon: path.join(__dirname, 'favicon.svg')
     });
-    win.removeMenu();
-    win.show();
-    win.webContents.openDevTools({ mode: 'detach' });
-    win.loadURL('http://localhost:5173');
-    win.on('closed', () => {
+    // Setup the settings
+    window.removeMenu();
+    window.show();
+    window.webContents.openDevTools({ mode: 'detach' });
+    window.loadURL('http://localhost:5173');
+    // Window Cleanup
+    window.on('closed', () => {
         electron_1.app.quit();
         return;
     });
+    return window;
 }
-electron_1.app.whenReady().then(createWindow);
+electron_1.app.whenReady().then(() => {
+    (0, utils_1.spitLog)('App Ready', 'App is now ready and starting the createWindow()', false);
+    // Setup the Window
+    const window = createWindow();
+    // Setup the IPCs
+    (0, ipc_1.setupIpcHandlers)(electron_1.ipcMain, steam, electron_1.app, window);
+    // Finished Setting up
+    (0, utils_1.spitLog)('App Read', "App has run through it's functions", false);
+});

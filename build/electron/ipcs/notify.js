@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quit = void 0;
-const quit = (ipc, app) => {
-    ipc.handle('quit', () => {
-        app.quit();
+exports.notify = void 0;
+const node_notifier_1 = __importDefault(require("node-notifier"));
+const notify = (ipc) => {
+    ipc.handle('notify', (_event, message) => {
+        node_notifier_1.default.notify(message);
     });
 };
-exports.quit = quit;
+exports.notify = notify;

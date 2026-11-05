@@ -12,6 +12,8 @@ import { openFolder } from './ipcs/open-folder'
 import { notify } from './ipcs/notify'
 import { log } from './ipcs/log'
 import { hasDlc } from './ipcs/has-dlc'
+import { save } from './ipcs/save'
+import { load } from './ipcs/load'
 
 export const setupIpcHandlers = (ipc: IpcMain, steam: Client, app: Electron.App, window: Electron.BrowserWindow) => {
 	try {
@@ -35,5 +37,7 @@ export const setupIpcHandlers = (ipc: IpcMain, steam: Client, app: Electron.App,
 	openFolder(ipc)
 	getFullscreen(ipc, window)
 	setFullscreen(ipc, window)
+	save(ipc)
+	load(ipc)
 	quit(ipc, app)
 }
